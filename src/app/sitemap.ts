@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       locales.map(async (locale) => {
         const result = await payload.find({
           collection: 'pages',
-          locale,
+          locale: locale as 'en' | 'ar' | 'all' | undefined,
           depth: 0,
           limit: 1000,
           where: {
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       locales.map(async (locale) => {
         const result = await payload.find({
           collection: 'posts',
-          locale,
+          locale: locale as 'en' | 'ar' | 'all' | undefined,
           depth: 0,
           limit: 1000,
           where: {
@@ -72,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     entries.push({
       url: `${siteUrl}/${locale}`,
-      changefreq: 'weekly',
+      changeFrequency: 'weekly',
       priority: 1,
       lastModified: homeDoc?.updatedAt ? new Date(homeDoc.updatedAt) : undefined,
     })
@@ -85,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
         entries.push({
           url: `${siteUrl}/${locale}/${cleanedSlug}`,
-          changefreq: 'weekly',
+          changeFrequency: 'weekly',
           priority: 0.8,
           lastModified: doc.updatedAt ? new Date(doc.updatedAt) : undefined,
         })
@@ -97,7 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     entries.push({
       url: `${siteUrl}/${locale}/blogs`,
-      changefreq: 'weekly',
+      changeFrequency: 'weekly',
       priority: 0.7,
       lastModified: newestPostTimestamp ? new Date(newestPostTimestamp) : undefined,
     })
@@ -110,7 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       entries.push({
         url: `${siteUrl}/${locale}/blogs/${doc.slug}`,
-        changefreq: 'weekly',
+        changeFrequency: 'weekly',
         priority: 0.6,
         lastModified: updatedAt || publishedAt,
       })
@@ -119,7 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   entries.push({
     url: siteUrl,
-    changefreq: 'weekly',
+    changeFrequency: 'weekly',
     priority: 0.5,
   })
 
