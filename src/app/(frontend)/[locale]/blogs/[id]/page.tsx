@@ -160,37 +160,46 @@ const Page = async ({ params }: { params: Promise<{ locale: string; id: string }
             {locale === 'en' ? 'Related Articles' : 'مقالات أخرى'}
           </h1>
           <div>
-            {sideBarDocs.map((doc, i) => (
-              <LocaleLink href={'#'} key={i} className="mb-10 flex gap-[20px] ">
-                <Image
-                  src={
-                    typeof doc.heroImage === 'string'
-                      ? doc.heroImage
-                      : typeof doc.heroImage === 'object' &&
-                          doc.heroImage !== null &&
-                          'url' in doc.heroImage
-                        ? (doc.heroImage as { url: string }).url
-                        : ''
-                  }
-                  width={82}
-                  height={82}
-                  alt="img"
-                  className="w-[82px] h-[82px] rounded-[5px] object-cover"
-                ></Image>
-                <div>
-                  <p className="text-[18px] leading-[1.3]">{doc.title}</p>
-                  <p className="mt-5 text-[#555a65] text-[16px]">
-                    {doc.publishedAt
-                      ? new Date(doc.publishedAt).toLocaleDateString(locale, {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })
-                      : ''}
-                  </p>
-                </div>
-              </LocaleLink>
-            ))}
+            {sideBarDocs.map((doc) => {
+              if (!doc.slug) return null
+
+              const heroImageSrc =
+                typeof doc.heroImage === 'string'
+                  ? doc.heroImage
+                  : typeof doc.heroImage === 'object' &&
+                      doc.heroImage !== null &&
+                      'url' in doc.heroImage
+                    ? (doc.heroImage as { url: string }).url
+                    : img
+
+              return (
+                <LocaleLink
+                  href={`/blogs/${doc.slug}`}
+                  key={(doc as { id?: string }).id ?? doc.slug}
+                  className="mb-10 flex gap-[20px] "
+                >
+                  <Image
+                    src={heroImageSrc}
+                    width={82}
+                    height={82}
+                    alt={doc.title || 'Related article'}
+                    className="w-[82px] h-[82px] rounded-[5px] object-cover"
+                  ></Image>
+                  <div>
+                    <p className="text-[18px] leading-[1.3]">{doc.title}</p>
+                    <p className="mt-5 text-[#555a65] text-[16px]">
+                      {doc.publishedAt
+                        ? new Date(doc.publishedAt).toLocaleDateString(locale, {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })
+                        : ''}
+                    </p>
+                  </div>
+                </LocaleLink>
+              )
+            })}
           </div>
         </div>
       </div>
