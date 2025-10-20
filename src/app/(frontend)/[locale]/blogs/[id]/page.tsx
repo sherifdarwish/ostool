@@ -175,7 +175,7 @@ const Page = async ({ params }: { params: Promise<{ locale: string; id: string }
               return (
                 <LocaleLink
                   href={`/blogs/${doc.slug}`}
-                  key={(doc as { id?: string }).id ?? doc.slug}
+                  key={doc.slug}
                   className="mb-10 flex gap-[20px] "
                 >
                   <Image
