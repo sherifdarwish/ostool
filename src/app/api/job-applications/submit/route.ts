@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const uploadDocument = async (
       entry: FormDataEntryValue | null,
       label: string,
-    ): Promise<string | null> => {
+    ): Promise<number | null> => {
       if (!(entry instanceof File) || entry.size === 0) {
         return null
       }
@@ -66,12 +66,12 @@ export async function POST(request: Request) {
         overrideAccess: true,
       })
 
-      return uploaded?.id ?? uploaded?.doc?.id ?? null
+      return uploaded.id
     }
 
     const cvId = await uploadDocument(formData.get('cv'), 'CV')
 
-    if (!cvId) {
+    if (cvId == null) {
       return NextResponse.json({ error: 'CV upload is required.' }, { status: 400 })
     }
 
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         gulf_experience: gulfExperience,
         availability,
         cv: cvId,
-        ...(portfolioId ? { portfolio: portfolioId } : {}),
+        ...(portfolioId != null ? { portfolio: portfolioId } : {}),
       },
       overrideAccess: true,
     })
