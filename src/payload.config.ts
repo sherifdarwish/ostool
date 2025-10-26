@@ -16,6 +16,7 @@ import Footer from './blocks/Footer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { BlogPage } from './collections/BlogPage/BlogPage'
 import { FormSubmissions } from './collections/FormSubmissions'
+import { JobApplications } from './collections/JobApplications'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -62,7 +63,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
   }),
-  collections: [Pages, Posts, Media, Users, FormSubmissions],
+  collections: [Pages, Posts, Media, Users, FormSubmissions, JobApplications],
   localization: {
     locales: [
       {

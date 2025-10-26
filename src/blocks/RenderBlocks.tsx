@@ -20,6 +20,7 @@ import TermsAndConditionsBlock from '@/app/(frontend)/[locale]/components/terms-
 import MultiStepFormContainer from '@/app/(frontend)/[locale]/components/waiting-list/MultiStepFormContainer'
 import WaitingHero from '@/app/(frontend)/[locale]/components/waiting-list/WaitingHero'
 import WaitingListReason from '@/app/(frontend)/[locale]/components/waiting-list/WaitingListReason'
+import JobApplicationForm from '@/app/(frontend)/[locale]/components/careers/JobApplicationForm'
 
 const blockComponents: Record<string, React.FC<any>> = {
   hero: Hero,
@@ -40,6 +41,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   waitingListHero: WaitingHero,
   msForm: MultiStepFormContainer,
   waitingListReason: WaitingListReason,
+  jobApplicationForm: JobApplicationForm,
 }
 
 export const RenderBlocks: React.FC<{

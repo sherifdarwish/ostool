@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     users: User;
     'waiting-form-submissions': WaitingFormSubmission;
+    'job-applications': JobApplication;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -87,6 +88,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'waiting-form-submissions': WaitingFormSubmissionsSelect<false> | WaitingFormSubmissionsSelect<true>;
+    'job-applications': JobApplicationsSelect<false> | JobApplicationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -512,6 +514,46 @@ export interface Page {
             blockName?: string | null;
             blockType: 'msForm';
           }
+        | {
+            heading: string;
+            description?: string | null;
+            fullNameLabel?: string | null;
+            emailLabel?: string | null;
+            phoneLabel?: string | null;
+            countryLabel?: string | null;
+            positionLabel?: string | null;
+            experienceLabel?: string | null;
+            gulfExperienceLabel?: string | null;
+            availabilityLabel?: string | null;
+            cvLabel?: string | null;
+            portfolioLabel?: string | null;
+            submitLabel?: string | null;
+            successTitle?: string | null;
+            successMessage?: string | null;
+            /**
+             * Optional list of positions available for selection. Leave empty to allow free text entry.
+             */
+            positionOptions?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Optional list of country choices. Leave empty to display a default list of GCC countries.
+             */
+            countryOptions?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'jobApplicationForm';
+          }
       )[]
     | null;
   /**
@@ -697,6 +739,25 @@ export interface WaitingFormSubmission {
   platforms?: string | null;
   averageRate?: string | null;
   tendersPerMonth?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-applications".
+ */
+export interface JobApplication {
+  id: number;
+  full_name: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  position: string;
+  years_of_experience: number;
+  gulf_experience: string;
+  availability: string;
+  cv: number | Media;
+  portfolio?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -1035,6 +1096,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'waiting-form-submissions';
         value: number | WaitingFormSubmission;
+      } | null)
+    | ({
+        relationTo: 'job-applications';
+        value: number | JobApplication;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1418,6 +1483,41 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        jobApplicationForm?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              fullNameLabel?: T;
+              emailLabel?: T;
+              phoneLabel?: T;
+              countryLabel?: T;
+              positionLabel?: T;
+              experienceLabel?: T;
+              gulfExperienceLabel?: T;
+              availabilityLabel?: T;
+              cvLabel?: T;
+              portfolioLabel?: T;
+              submitLabel?: T;
+              successTitle?: T;
+              successMessage?: T;
+              positionOptions?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              countryOptions?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -1581,6 +1681,24 @@ export interface WaitingFormSubmissionsSelect<T extends boolean = true> {
   platforms?: T;
   averageRate?: T;
   tendersPerMonth?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-applications_select".
+ */
+export interface JobApplicationsSelect<T extends boolean = true> {
+  full_name?: T;
+  email?: T;
+  phone_number?: T;
+  country?: T;
+  position?: T;
+  years_of_experience?: T;
+  gulf_experience?: T;
+  availability?: T;
+  cv?: T;
+  portfolio?: T;
   updatedAt?: T;
   createdAt?: T;
 }

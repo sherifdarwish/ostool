@@ -23,6 +23,7 @@ import { TermsAndConditions } from '@/blocks/terms-and-conditions/TermsAndCondit
 import { WaitingListHero } from '@/blocks/waiting-list/WaitingListHero'
 import { WaitingListReason } from '@/blocks/waiting-list/WaitingListReason'
 import { MultiStepFormContainer } from '@/blocks/waiting-list/MultiStepFormContainer'
+import { JobApplicationForm } from '@/blocks/careers/JobApplicationForm'
 
 export const hardCodedSlugs = ['blogs']
 
@@ -96,6 +97,7 @@ export const Pages: CollectionConfig<'pages'> = {
         WaitingListHero,
         WaitingListReason,
         MultiStepFormContainer,
+        JobApplicationForm,
       ],
       localized: true,
     },

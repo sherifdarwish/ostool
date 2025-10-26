@@ -20,6 +20,19 @@ export interface FormData {
   averageRate?: string
   tendersPerMonth?: string
 }
+
+export interface JobApplicationFormData {
+  full_name: string
+  email: string
+  phone_number: string
+  country: string
+  position: string
+  years_of_experience: number
+  gulf_experience: string
+  availability: string
+  cv: string
+  portfolio?: string
+}
 export type NavbarButton = {
   href: string
   label: ReactNode
