@@ -75,6 +75,7 @@ export const JobApplications: CollectionConfig = {
       name: 'portfolio',
       type: 'upload',
       relationTo: 'media',
+      required: false,
     },
   ],
 }
