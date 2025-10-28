@@ -196,11 +196,13 @@ const JobApplicationForm = ({
                   <div className={fieldWrapper}>
                     <Label htmlFor="cv">{cvLabel}</Label>
                     <Input id="cv" name="cv" type="file" accept=".pdf,.doc,.docx" required />
+                    <p className="text-sm text-muted-foreground">Maximum file size: 15MB.</p>
                   </div>
 
                   <div className={fieldWrapper}>
                     <Label htmlFor="portfolio">{portfolioLabel}</Label>
                     <Input id="portfolio" name="portfolio" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.rar" />
+                    <p className="text-sm text-muted-foreground">Maximum file size: 15MB.</p>
                   </div>
                 </div>
               </div>
