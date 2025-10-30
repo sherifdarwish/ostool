@@ -6,16 +6,27 @@ import { getPayload } from 'payload'
 
 type Global = keyof Config['globals']
 
+type LocaleCode = Config['locale']
+
+type LocaleOption = LocaleCode | 'all'
+
+type NormalizedGlobalOptions = {
+  depth: number
+  locale?: LocaleOption
+  fallbackLocale?: LocaleCode
+  draft?: boolean
+}
+
 type GlobalOptions =
   | number
   | {
       depth?: number
-      locale?: string
-      fallbackLocale?: string
+      locale?: LocaleOption
+      fallbackLocale?: LocaleCode
       draft?: boolean
     }
 
-const normalizeOptions = (options?: GlobalOptions) => {
+const normalizeOptions = (options?: GlobalOptions): NormalizedGlobalOptions => {
   if (typeof options === 'number') {
     return {
       depth: options,
