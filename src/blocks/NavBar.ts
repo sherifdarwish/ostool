@@ -1,5 +1,7 @@
 import { GlobalConfig } from 'payload'
 
+import { revalidateNavbar } from '@/blocks/hooks/revalidateNavbar'
+
 export const Navbar: GlobalConfig = {
   slug: 'navbar',
   label: 'Navbar',
@@ -64,4 +66,7 @@ export const Navbar: GlobalConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [revalidateNavbar],
+  },
 }

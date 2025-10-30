@@ -1,7 +1,6 @@
 import Footer from '@/components/shared/Footer'
 import Navbar from '@/components/shared/Navbar'
-import config from '@payload-config'
-import { getPayload } from 'payload'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
@@ -15,19 +14,16 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params // Await the params Promise
   const typedLocale = locale as 'en' | 'ar' | 'all' | undefined
-  const payload = await getPayload({ config })
-  const navbar = await payload.findGlobal({
-    slug: 'navbar' as any,
+  const navbar = await getCachedGlobal('navbar', {
+    depth: 2,
     locale: typedLocale,
     fallbackLocale: 'en',
+  })()
+  const footer = await getCachedGlobal('footer', {
     depth: 2,
-  })
-  const footer = await payload.findGlobal({
-    slug: 'footer',
     locale: typedLocale,
     fallbackLocale: 'en',
-    depth: 2,
-  })
+  })()
 
   return (
     <div dir={locale === 'ar' ? 'rtl' : 'ltr'}>
