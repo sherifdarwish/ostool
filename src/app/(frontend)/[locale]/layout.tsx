@@ -3,6 +3,9 @@ import Navbar from '@/components/shared/Navbar'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+
 export default async function LocaleLayout({
   children,
   params,
