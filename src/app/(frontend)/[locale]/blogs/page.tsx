@@ -11,7 +11,8 @@ const Page = async ({ params }: { params: Promise<{ locale: string }> }) => {
   const payload = await getPayload()
   const { docs } = await payload.find({
     collection: 'posts',
-    limit: 5,
+    limit: 0,
+    pagination: false,
     where: {
       publishedAt: { not_equals: null },
     },
