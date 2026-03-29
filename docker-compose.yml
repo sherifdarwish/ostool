@@ -2,30 +2,23 @@ version: '3'
 
 services:
   payload:
-    image: node:18-alpine
+    build: .
     ports:
       - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
     depends_on:
       - mongo
     env_file:
       - .env
+    volumes:
+      - media-storage:/app/public/media
 
   mongo:
     image: mongo:latest
     ports:
       - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - mongo-data:/data/db
 
 volumes:
-  data:
-  node_modules:
+  media-storage:
+  mongo-data:

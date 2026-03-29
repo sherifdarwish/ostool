@@ -73,6 +73,9 @@ export interface Config {
     users: User;
     'waiting-form-submissions': WaitingFormSubmission;
     'job-applications': JobApplication;
+    brands: Brand;
+    products: Product;
+    leads: Lead;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -89,6 +92,9 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     'waiting-form-submissions': WaitingFormSubmissionsSelect<false> | WaitingFormSubmissionsSelect<true>;
     'job-applications': JobApplicationsSelect<false> | JobApplicationsSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -98,7 +104,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     navbar: Navbar;
@@ -148,7 +154,7 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   layout?:
@@ -163,9 +169,9 @@ export interface Page {
              */
             primaryButtonLink?: string | null;
             secondaryButton?: string | null;
-            mainImage?: (number | null) | Media;
-            barImage?: (number | null) | Media;
-            personImage?: (number | null) | Media;
+            mainImage?: (string | null) | Media;
+            barImage?: (string | null) | Media;
+            personImage?: (string | null) | Media;
             bubbleText?: string | null;
             id?: string | null;
             blockName?: string | null;
@@ -175,13 +181,13 @@ export interface Page {
             introText: string;
             companyLogos?:
               | {
-                  logo?: (number | null) | Media;
+                  logo?: (string | null) | Media;
                   id?: string | null;
                 }[]
               | null;
             heading: string;
             items: {
-              image?: (number | null) | Media;
+              image?: (string | null) | Media;
               title?: string | null;
               text?: string | null;
               id?: string | null;
@@ -192,10 +198,10 @@ export interface Page {
           }
         | {
             heading: string;
-            dashboardImage?: (number | null) | Media;
+            dashboardImage?: (string | null) | Media;
             dashboardNote?: string | null;
             cards: {
-              icon?: (number | null) | Media;
+              icon?: (string | null) | Media;
               title?: string | null;
               description?: string | null;
               id?: string | null;
@@ -215,7 +221,7 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
-            image?: (number | null) | Media;
+            image?: (string | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'workFlow';
@@ -226,7 +232,7 @@ export interface Page {
               name: string;
               role?: string | null;
               feedback: string;
-              avatar?: (number | null) | Media;
+              avatar?: (string | null) | Media;
               rating: number;
               id?: string | null;
             }[];
@@ -241,7 +247,7 @@ export interface Page {
             }[];
             highlightText: string;
             buttonText: string;
-            image: number | Media;
+            image: string | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'assisting';
@@ -272,7 +278,7 @@ export interface Page {
               | null;
             companies?:
               | {
-                  logo: number | Media;
+                  logo: string | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -280,7 +286,7 @@ export interface Page {
             description: string;
             ctaText?: string | null;
             ctaLink?: string | null;
-            image: number | Media;
+            image: string | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'aboutHero';
@@ -288,7 +294,7 @@ export interface Page {
         | {
             title: string;
             description?: string | null;
-            image?: (number | null) | Media;
+            image?: (string | null) | Media;
             items?:
               | {
                   heading: string;
@@ -308,7 +314,7 @@ export interface Page {
               | {
                   title: string;
                   description?: string | null;
-                  img: number | Media;
+                  img: string | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -392,7 +398,7 @@ export interface Page {
                         id?: string | null;
                       }[]
                     | null;
-                  vid: number | Media;
+                  vid: string | Media;
                   id?: string | null;
                 }[]
               | null;
@@ -466,7 +472,7 @@ export interface Page {
             blockType: 'waitingListReason';
           }
         | {
-            img: number | Media;
+            img: string | Media;
             head?: string | null;
             sub?: string | null;
             steps: {
@@ -569,7 +575,7 @@ export interface Page {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt?: string | null;
   caption?: {
     root: {
@@ -661,14 +667,14 @@ export interface Media {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   'Short Description'?: string | null;
   heroTag?: string | null;
-  heroImage?: (number | null) | Media;
+  heroImage?: (string | null) | Media;
   publishedAt?: string | null;
-  author?: (number | null) | User;
+  author?: (string | null) | User;
   content: {
     root: {
       type: string;
@@ -684,13 +690,13 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  relatedPosts?: (number | Post)[] | null;
+  relatedPosts?: (string | Post)[] | null;
   seo?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
     description?: string | null;
   };
   updatedAt: string;
@@ -701,7 +707,7 @@ export interface Post {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -726,7 +732,7 @@ export interface User {
  * via the `definition` "waiting-form-submissions".
  */
 export interface WaitingFormSubmission {
-  id: number;
+  id: string;
   business_type?: string | null;
   fleet?: string | null;
   manage_operation?: string | null;
@@ -747,7 +753,7 @@ export interface WaitingFormSubmission {
  * via the `definition` "job-applications".
  */
 export interface JobApplication {
-  id: number;
+  id: string;
   full_name: string;
   email: string;
   phone_number: string;
@@ -756,8 +762,113 @@ export interface JobApplication {
   years_of_experience: number;
   gulf_experience: string;
   availability: string;
-  cv: number | Media;
-  portfolio?: (number | null) | Media;
+  cv: string | Media;
+  portfolio?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: string;
+  name: string;
+  /**
+   * Used for frontend routing and filtering.
+   */
+  slug: string;
+  logo: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  status?: ('draft' | 'published') | null;
+  brand: string | Brand;
+  mainImage: string | Media;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  shortFeatures?:
+    | {
+        feature?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  sectors?:
+    | {
+        sectorName: string;
+        id?: string | null;
+      }[]
+    | null;
+  technicalSpecs?:
+    | {
+        key: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  faqs?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: string;
+  customerName: string;
+  phoneNumber: string;
+  organizationName: string;
+  businessBrief: string;
+  status?: ('new' | 'contacted' | 'qualified' | 'closed') | null;
+  referencedProduct: string | Product;
   updatedAt: string;
   createdAt: string;
 }
@@ -766,7 +877,7 @@ export interface JobApplication {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: number;
+  id: string;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -776,11 +887,11 @@ export interface Redirect {
     reference?:
       | ({
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: number | Post;
+          value: string | Post;
         } | null);
     url?: string | null;
   };
@@ -792,7 +903,7 @@ export interface Redirect {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: number;
+  id: string;
   title: string;
   fields?:
     | (
@@ -966,8 +1077,8 @@ export interface Form {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: number;
-  form: number | Form;
+  id: string;
+  form: string | Form;
   submissionData?:
     | {
         field: string;
@@ -983,7 +1094,7 @@ export interface FormSubmission {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: number;
+  id: string;
   /**
    * Input data provided to the job
    */
@@ -1075,52 +1186,64 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: number | Post;
+        value: string | Post;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'waiting-form-submissions';
-        value: number | WaitingFormSubmission;
+        value: string | WaitingFormSubmission;
       } | null)
     | ({
         relationTo: 'job-applications';
-        value: number | JobApplication;
+        value: string | JobApplication;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: string | Brand;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: string | Lead;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: number | Redirect;
+        value: string | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
-        value: number | Form;
+        value: string | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: number | FormSubmission;
+        value: string | FormSubmission;
       } | null)
     | ({
         relationTo: 'payload-jobs';
-        value: number | PayloadJob;
+        value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -1130,10 +1253,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -1153,7 +1276,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1704,6 +1827,77 @@ export interface JobApplicationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  status?: T;
+  brand?: T;
+  mainImage?: T;
+  description?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  shortFeatures?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  sectors?:
+    | T
+    | {
+        sectorName?: T;
+        id?: T;
+      };
+  technicalSpecs?:
+    | T
+    | {
+        key?: T;
+        value?: T;
+        id?: T;
+      };
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  customerName?: T;
+  phoneNumber?: T;
+  organizationName?: T;
+  businessBrief?: T;
+  status?: T;
+  referencedProduct?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1935,8 +2129,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "navbar".
  */
 export interface Navbar {
-  id: number;
-  logo: number | Media;
+  id: string;
+  logo: string | Media;
   navLinks?:
     | {
         label: string;
@@ -1960,9 +2154,9 @@ export interface Navbar {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
-  logo?: (number | null) | Media;
-  highlightImage?: (number | null) | Media;
+  id: string;
+  logo?: (string | null) | Media;
+  highlightImage?: (string | null) | Media;
   links?:
     | {
         label: string;
@@ -1974,7 +2168,7 @@ export interface Footer {
     | {
         platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'email' | 'phone';
         url: string;
-        icon: number | Media;
+        icon: string | Media;
         id?: string | null;
       }[]
     | null;
@@ -1994,16 +2188,16 @@ export interface Footer {
  * via the `definition` "blog-page".
  */
 export interface BlogPage {
-  id: number;
+  id: string;
   hero: {
     title: string;
     description: string;
-    image: number | Media;
+    image: string | Media;
   };
   /**
    * Select one post to feature at the top of the page.
    */
-  featuredPost: number | Post;
+  featuredPost: string | Post;
   moreArticlesTitle: string;
   featurePostButtonText: string;
   updatedAt?: string | null;
@@ -2097,10 +2291,10 @@ export interface TaskSchedulePublish {
     locale?: string | null;
     doc?: {
       relationTo: 'pages';
-      value: number | Page;
+      value: string | Page;
     } | null;
     global?: string | null;
-    user?: (number | null) | User;
+    user?: (string | null) | User;
   };
   output?: unknown;
 }

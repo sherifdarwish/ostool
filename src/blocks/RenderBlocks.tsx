@@ -22,7 +22,7 @@ import WaitingHero from '@/app/(frontend)/[locale]/components/waiting-list/Waiti
 import WaitingListReason from '@/app/(frontend)/[locale]/components/waiting-list/WaitingListReason'
 import JobApplicationForm from '@/app/(frontend)/[locale]/components/careers/JobApplicationForm'
 
-const blockComponents: Record<string, React.FC<any>> = {
+const blockComponents: Record<string, React.ComponentType<any>> = {
   hero: Hero,
   trusted: Trusted,
   competeBetter: CompeteBetter,
