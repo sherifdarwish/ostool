@@ -1,4 +1,4 @@
-import { postgresAdapter } from '@payloadcms/db-postgres'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -17,6 +17,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { BlogPage } from './collections/BlogPage/BlogPage'
 import { FormSubmissions } from './collections/FormSubmissions'
 import { JobApplications } from './collections/JobApplications'
+import { Brands } from './collections/Brands'
+import { Products } from './collections/Products'
+import { Leads } from './collections/Leads'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -58,12 +61,10 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI,
-    },
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Users, FormSubmissions, JobApplications],
+  collections: [Pages, Posts, Media, Users, FormSubmissions, JobApplications, Brands, Products, Leads],
   localization: {
     locales: [
       {

@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const uploadDocument = async (
       entry: FormDataEntryValue | null,
       label: string,
-    ): Promise<number | null> => {
+    ): Promise<string | null> => {
       if (!(entry instanceof File) || entry.size === 0) {
         return null
       }
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         overrideAccess: true,
       })
 
-      return uploaded.id
+      return uploaded.id as string
     }
 
     const cvId = await uploadDocument(formData.get('cv'), 'CV')
