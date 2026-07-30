@@ -1,31 +1,62 @@
-version: '3'
-
 services:
   payload:
-    image: node:18-alpine
+    image: node:20-alpine
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
+    working_dir: /home/node/app
+    command: sh -c "npm ci && npm run dev"
     depends_on:
-      - mongo
+      database:
+        condition: service_healthy
     env_file:
       - .env
+    networks:
+      - postgres-network
 
-  mongo:
-    image: mongo:latest
+  database:
+    image: postgres:17
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    env_file:
+      - .env
+    networks:
+      - postgres-network
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - ./db-data:/var/lib/postgresql/data
+      #- ./ostool_backup.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  pgadmin:
+      image: dpage/pgadmin4
+      ports:
+        - "15433:80"
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      env_file:
+        - .env
+      depends_on:
+        database:
+          condition: service_healthy
+      networks:
+        - postgres-network
+      volumes:
+        - ./pgadmin-data:/var/lib/pgadmin
+
+networks:
+  postgres-network:
+    driver: bridge
 
 volumes:
-  data:
   node_modules:
