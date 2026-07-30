@@ -15,6 +15,8 @@ import { Navbar } from './blocks/NavBar'
 import Footer from './blocks/Footer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { BlogPage } from './collections/BlogPage/BlogPage'
+import { Applications } from './collections/Applications'
+import { Companies } from './collections/Companies'
 import { FormSubmissions } from './collections/FormSubmissions'
 import { JobApplications } from './collections/JobApplications'
 
@@ -63,7 +65,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
   }),
-  collections: [Pages, Posts, Media, Users, FormSubmissions, JobApplications],
+  collections: [Pages, Posts, Media, Users, Companies, Applications, FormSubmissions, JobApplications],
   localization: {
     locales: [
       {

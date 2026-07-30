@@ -71,6 +71,8 @@ export interface Config {
     posts: Post;
     media: Media;
     users: User;
+    companies: Company;
+    applications: Application;
     'waiting-form-submissions': WaitingFormSubmission;
     'job-applications': JobApplication;
     redirects: Redirect;
@@ -87,6 +89,8 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    companies: CompaniesSelect<false> | CompaniesSelect<true>;
+    applications: ApplicationsSelect<false> | ApplicationsSelect<true>;
     'waiting-form-submissions': WaitingFormSubmissionsSelect<false> | WaitingFormSubmissionsSelect<true>;
     'job-applications': JobApplicationsSelect<false> | JobApplicationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -703,6 +707,13 @@ export interface Post {
 export interface User {
   id: number;
   name?: string | null;
+  role: 'admin' | 'customer';
+  authProvider?: ('email' | 'google' | 'linkedin') | null;
+  providerAccountId?: string | null;
+  avatarUrl?: string | null;
+  company?: (number | null) | Company;
+  enabledApps?: (number | Application)[] | null;
+  onboardingStatus: 'company-required' | 'app-selection-required' | 'complete';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -720,6 +731,34 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "companies".
+ */
+export interface Company {
+  id: number;
+  name: string;
+  businessType: string;
+  fleetSize: '1-10' | '11-50' | '51-200' | '200+';
+  phone: string;
+  country: string;
+  owner: number | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "applications".
+ */
+export interface Application {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  status: 'active' | 'coming-soon';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1092,6 +1131,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'companies';
+        value: number | Company;
+      } | null)
+    | ({
+        relationTo: 'applications';
+        value: number | Application;
       } | null)
     | ({
         relationTo: 'waiting-form-submissions';
@@ -1647,6 +1694,13 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
+  authProvider?: T;
+  providerAccountId?: T;
+  avatarUrl?: T;
+  company?: T;
+  enabledApps?: T;
+  onboardingStatus?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1663,6 +1717,32 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "companies_select".
+ */
+export interface CompaniesSelect<T extends boolean = true> {
+  name?: T;
+  businessType?: T;
+  fleetSize?: T;
+  phone?: T;
+  country?: T;
+  owner?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "applications_select".
+ */
+export interface ApplicationsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
