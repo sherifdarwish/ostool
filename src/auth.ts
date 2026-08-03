@@ -1,5 +1,6 @@
 import config from '@payload-config'
 import NextAuth from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import LinkedIn from 'next-auth/providers/linkedin'
 import { getPayload } from 'payload'
@@ -81,7 +82,12 @@ async function syncPayloadUser({
 export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ account, profile, token, user }) {
-      if (account && user?.email) {
+      if (account?.provider === 'credentials' && user?.email) {
+        token.payloadUserId = user.payloadUserId
+        token.onboardingStatus = user.onboardingStatus
+      }
+
+      if (account && account.provider !== 'credentials' && user?.email) {
         const payloadUser = await syncPayloadUser({
           email: user.email,
           image: user.image,
@@ -124,7 +130,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: '/en/login',
   },
-  providers: [Google, LinkedIn],
+  providers: [
+    Credentials({
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        const email = String(credentials?.email || '')
+          .trim()
+          .toLowerCase()
+        const password = String(credentials?.password || '')
+
+        if (!email || !password) return null
+
+        const payload = await getPayload({ config })
+        const result = await payload.login({
+          collection: 'users',
+          data: {
+            email,
+            password,
+          },
+          overrideAccess: true,
+        })
+
+        if (!result.user) return null
+
+        return {
+          email: result.user.email,
+          id: String(result.user.id),
+          image: result.user.avatarUrl || null,
+          name: result.user.name || result.user.email,
+          onboardingStatus: result.user.onboardingStatus,
+          payloadUserId: result.user.id,
+        }
+      },
+    }),
+    Google,
+    LinkedIn,
+  ],
   session: {
     strategy: 'jwt',
   },

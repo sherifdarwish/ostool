@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getCurrentCustomer } from '@/utilities/getCurrentCustomer'
 import { redirect } from 'next/navigation'
+import { getAuthText, isArabic } from '../../authText'
 import { saveCompanyProfile } from './actions'
 
 export default async function CompanyOnboardingPage({
@@ -12,6 +13,8 @@ export default async function CompanyOnboardingPage({
 }) {
   const { locale } = await params
   const { user } = await getCurrentCustomer({ locale })
+  const text = getAuthText(locale)
+  const rtl = isArabic(locale)
 
   if (user.company) {
     redirect(`/${locale}/apps`)
@@ -24,16 +27,16 @@ export default async function CompanyOnboardingPage({
 
   return (
     <main className="bg-[#f8fafc] px-6 py-12">
-      <section className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <section
+        className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr]"
+        dir={rtl ? 'rtl' : 'ltr'}
+      >
         <div className="space-y-4 pt-4">
-          <p className="text-sm font-medium uppercase tracking-wide text-primary">Company setup</p>
-          <h1 className="text-4xl font-bold leading-tight text-gray-950">
-            Tell us about your operation.
-          </h1>
-          <p className="text-base leading-7 text-gray-600">
-            This information connects your account to a company profile before product access is
-            enabled.
+          <p className="text-sm font-medium uppercase tracking-wide text-primary">
+            {text.companySetup}
           </p>
+          <h1 className="text-4xl font-bold leading-tight text-gray-950">{text.companyTitle}</h1>
+          <p className="text-base leading-7 text-gray-600">{text.companySubtitle}</p>
         </div>
 
         <form
@@ -41,17 +44,22 @@ export default async function CompanyOnboardingPage({
           className="grid gap-5 rounded-lg border border-gray-200 bg-white p-8 shadow-sm"
         >
           <div className="grid gap-2">
-            <Label htmlFor="name">Company name</Label>
+            <Label htmlFor="name">{text.companyName}</Label>
             <Input id="name" name="name" required />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="businessType">Business type</Label>
-            <Input id="businessType" name="businessType" placeholder="Rental, leasing, logistics" required />
+            <Label htmlFor="businessType">{text.businessType}</Label>
+            <Input
+              id="businessType"
+              name="businessType"
+              placeholder={text.businessTypePlaceholder}
+              required
+            />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="fleetSize">Fleet size</Label>
+            <Label htmlFor="fleetSize">{text.fleetSize}</Label>
             <select
               className="min-h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
               id="fleetSize"
@@ -66,16 +74,16 @@ export default async function CompanyOnboardingPage({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phone">{text.phone}</Label>
             <Input id="phone" name="phone" required />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="country">Country</Label>
+            <Label htmlFor="country">{text.country}</Label>
             <Input id="country" name="country" required />
           </div>
 
-          <Button className="mt-2 w-full">Continue to applications</Button>
+          <Button className="mt-2 w-full">{text.continueApps}</Button>
         </form>
       </section>
     </main>

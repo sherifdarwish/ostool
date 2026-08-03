@@ -1,0 +1,116 @@
+export function isArabic(locale: string) {
+  return locale === 'ar'
+}
+
+export function getAuthText(locale: string) {
+  if (isArabic(locale)) {
+    return {
+      appAccess: 'صلاحيات التطبيقات',
+      appIntro:
+        'اختر المنتج الذي تريد شركتك استخدامه أولاً. يمكن تفعيل صلاحيات إضافية لاحقاً من هذه الصفحة.',
+      appSelected: 'تم تفعيل الوصول إلى',
+      businessType: 'نوع النشاط',
+      businessTypePlaceholder: 'تأجير، تشغيل، لوجستيات',
+      chooseApp: 'اختر التطبيق',
+      companyName: 'اسم الشركة',
+      companySetup: 'إعداد الشركة',
+      companySubtitle: 'تربط هذه البيانات حسابك بملف الشركة قبل تفعيل صلاحيات المنتجات.',
+      companyTitle: 'أخبرنا عن نشاط شركتك.',
+      continueApps: 'المتابعة إلى التطبيقات',
+      country: 'الدولة',
+      createAccount: 'إنشاء حساب',
+      email: 'البريد الإلكتروني',
+      enableAccess: 'تفعيل الوصول',
+      enabled: 'مفعل',
+      fleetSize: 'حجم الأسطول',
+      hasAccount: 'لديك حساب بالفعل؟',
+      login: 'تسجيل الدخول',
+      loginSubtitle: 'استخدم حسابك التجاري للمتابعة إلى إعداد الشركة واختيار التطبيقات.',
+      loginTitle: 'تسجيل الدخول إلى أسطول',
+      logout: 'تسجيل الخروج',
+      name: 'الاسم',
+      newCustomer: 'عميل جديد؟',
+      noAccount: 'ليس لديك حساب؟',
+      password: 'كلمة المرور',
+      phone: 'رقم الجوال',
+      registerSubtitle: 'سجل باستخدام البريد الإلكتروني أو Google أو LinkedIn ثم أضف بيانات شركتك.',
+      registerTitle: 'إنشاء حسابك',
+      registerWithGoogle: 'التسجيل باستخدام Google',
+      registerWithLinkedIn: 'التسجيل باستخدام LinkedIn',
+      rentalManagement: 'إدارة التأجير',
+      rentalManagementDescription: 'الحجوزات والعقود والمدفوعات وعمليات التأجير.',
+      socialDivider: 'أو تابع باستخدام',
+      submitLogin: 'دخول',
+      submitRegister: 'إنشاء الحساب',
+      tracking: 'التتبع',
+      trackingDescription: 'مواقع المركبات وحالتها ومعدلات الاستخدام وسير عمل التتبع.',
+      withGoogle: 'المتابعة باستخدام Google',
+      withLinkedIn: 'المتابعة باستخدام LinkedIn',
+    }
+  }
+
+  return {
+    appAccess: 'Application access',
+    appIntro:
+      'Select the product your company wants to use first. Additional access can be enabled later from this page.',
+    appSelected: 'Access enabled for',
+    businessType: 'Business type',
+    businessTypePlaceholder: 'Rental, leasing, logistics',
+    chooseApp: 'Choose your application',
+    companyName: 'Company name',
+    companySetup: 'Company setup',
+    companySubtitle:
+      'This information connects your account to a company profile before product access is enabled.',
+    companyTitle: 'Tell us about your operation.',
+    continueApps: 'Continue to applications',
+    country: 'Country',
+    createAccount: 'Create an account',
+    email: 'Email',
+    enableAccess: 'Enable access',
+    enabled: 'Enabled',
+    fleetSize: 'Fleet size',
+    hasAccount: 'Already registered?',
+    login: 'Log in',
+    loginSubtitle: 'Use your business account to continue to onboarding and product access.',
+    loginTitle: 'Log in to Ostool',
+    logout: 'Log out',
+    name: 'Name',
+    newCustomer: 'New customer?',
+    noAccount: 'Need an account?',
+    password: 'Password',
+    phone: 'Phone',
+    registerSubtitle: 'Register with email, Google, or LinkedIn, then add your company details.',
+    registerTitle: 'Create your account',
+    registerWithGoogle: 'Register with Google',
+    registerWithLinkedIn: 'Register with LinkedIn',
+    rentalManagement: 'Rental Management',
+    rentalManagementDescription: 'Fleet reservations, agreements, payments, and rental operations.',
+    socialDivider: 'Or continue with',
+    submitLogin: 'Log in',
+    submitRegister: 'Create account',
+    tracking: 'Tracking',
+    trackingDescription: 'Vehicle location, status, utilization, and tracking workflows.',
+    withGoogle: 'Continue with Google',
+    withLinkedIn: 'Continue with LinkedIn',
+  }
+}
+
+export function getApplicationText(locale: string, slug: string) {
+  const text = getAuthText(locale)
+
+  if (slug === 'rental-management') {
+    return {
+      description: text.rentalManagementDescription,
+      name: text.rentalManagement,
+    }
+  }
+
+  if (slug === 'tracking') {
+    return {
+      description: text.trackingDescription,
+      name: text.tracking,
+    }
+  }
+
+  return null
+}

@@ -1,6 +1,11 @@
 import type { DefaultSession } from 'next-auth'
 
 declare module 'next-auth' {
+  interface User {
+    onboardingStatus?: string
+    payloadUserId?: number
+  }
+
   interface Session {
     user: {
       onboardingStatus?: string
