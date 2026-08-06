@@ -35,8 +35,8 @@ export async function getCurrentCustomer({
     redirect(`/${locale}/login`)
   }
 
-  if (requireCompany && !user.company) {
-    redirect(`/${locale}/onboarding/company`)
+  if (requireCompany && user.onboardingStatus === 'company-required') {
+    redirect(`/${locale}/onboarding`)
   }
 
   return {

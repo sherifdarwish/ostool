@@ -172,5 +172,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: 'jwt',
   },
+  secret: process.env.AUTH_SECRET || process.env.PAYLOAD_SECRET,
   trustHost: true,
 })

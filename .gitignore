@@ -3,8 +3,18 @@ dist / media
 node_modules
 .DS_Store
 .env
+.env.local
+.env.*.local
+.vscode/.env.local
 .next
 .vercel
+
+db-data/
+init.sql
+ostool_backup.sql
+pgadmin-data/
+public/media/
+public/images/
 
 # Payload default media upload directory
 # public/media/

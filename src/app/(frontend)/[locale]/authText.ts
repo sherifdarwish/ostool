@@ -94,23 +94,3 @@ export function getAuthText(locale: string) {
     withLinkedIn: 'Continue with LinkedIn',
   }
 }
-
-export function getApplicationText(locale: string, slug: string) {
-  const text = getAuthText(locale)
-
-  if (slug === 'rental-management') {
-    return {
-      description: text.rentalManagementDescription,
-      name: text.rentalManagement,
-    }
-  }
-
-  if (slug === 'tracking') {
-    return {
-      description: text.trackingDescription,
-      name: text.tracking,
-    }
-  }
-
-  return null
-}

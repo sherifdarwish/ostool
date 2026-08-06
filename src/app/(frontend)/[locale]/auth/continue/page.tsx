@@ -9,8 +9,8 @@ export default async function AuthContinuePage({
   const { locale } = await params
   const { user } = await getCurrentCustomer({ locale })
 
-  if (!user.company) {
-    redirect(`/${locale}/onboarding/company`)
+  if (user.onboardingStatus === 'company-required') {
+    redirect(`/${locale}/onboarding`)
   }
 
   redirect(`/${locale}/apps`)

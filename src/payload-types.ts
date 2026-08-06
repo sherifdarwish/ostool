@@ -756,6 +756,15 @@ export interface Application {
   name: string;
   slug: string;
   description?: string | null;
+  media?: (number | null) | Media;
+  /**
+   * YouTube link or direct MP4/WebM URL. Used when no uploaded media is selected.
+   */
+  videoUrl?: string | null;
+  /**
+   * Where enabled customers launch this application.
+   */
+  applicationUrl?: string | null;
   status: 'active' | 'coming-soon';
   updatedAt: string;
   createdAt: string;
@@ -1740,6 +1749,9 @@ export interface ApplicationsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  media?: T;
+  videoUrl?: T;
+  applicationUrl?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -6,18 +6,16 @@ import { FormData } from '@/type'
 import { cn } from '@/utilities/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import FinalStep from './FinalStep'
 import StepContainer from './StepContainer'
+import { saveWaitingListOnboarding } from './actions'
 
 const MultiStepForm = ({
   allStepsData,
   submitButtonText,
-  submissionThanks,
-  submissionMessage,
-  backToHomeText,
   locale,
 }: {
   allStepsData: any
@@ -28,6 +26,8 @@ const MultiStepForm = ({
   locale?: string
 }) => {
   const [currentStep, setCurrentStep] = useState<number>(1)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const { schema, defaultValues } = useMemo(() => {
     const schemaShape: Record<string, any> = {}
@@ -71,6 +71,9 @@ const MultiStepForm = ({
   const watchedValues = watch()
 
   const onSubmit = async (data: FormData) => {
+    if (isSubmitting) return
+
+    setIsSubmitting(true)
     console.log('=== FORM SUBMISSION DEBUG ===')
     console.log('Form data received (already mapped during selection):', data)
     console.log('Form data keys:', Object.keys(data))
@@ -82,31 +85,16 @@ const MultiStepForm = ({
     console.log('Final data being sent to API:', submissionData)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || window.location.origin
-
       console.log('Sending data to API:', JSON.stringify(submissionData, null, 2))
 
-      const res = await fetch(`${apiUrl}/api/waiting-form-submissions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(submissionData),
-      })
-
-      if (!res.ok) {
-        const errorText = await res.text()
-        console.error('Response error:', errorText)
-        throw new Error(`Failed: ${res.status} - ${errorText}`)
-      }
-
-      const json = await res.json()
-      console.log('Form submitted successfully:', json)
-      console.log('Created record ID:', json.doc?.id)
-
-      setCurrentStep((prev) => prev + 1)
+      await saveWaitingListOnboarding(submissionData)
+      router.replace(`/${locale || 'en'}/apps?onboarding=complete`)
     } catch (err) {
       console.error('Form submission error:', err)
       // You might want to show an error message to the user here
       alert('Something went wrong. Please try again.')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -253,6 +241,7 @@ const MultiStepForm = ({
               </Button>
             )}
             <Button
+              disabled={isSubmitting}
               type="button"
               onClick={() => {
                 console.log('Button clicked - Current step formType:', currentStepData?.formType)
@@ -296,14 +285,7 @@ const MultiStepForm = ({
             </Button>
           </div>
         </form>
-      ) : (
-        <FinalStep
-          formData={watchedValues as FormData}
-          submissionThanks={submissionThanks}
-          submissionMessage={submissionMessage}
-          backToHomeText={backToHomeText}
-        />
-      )}
+      ) : null}
     </div>
   )
 }

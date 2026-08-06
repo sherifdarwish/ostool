@@ -14,8 +14,29 @@ import {
 } from '../ui/drawer'
 import LanguageSwitcher from './LanguageSwitcher'
 import LocaleLink from './LocaleLink'
+import AccountMenu from './AccountMenu'
 
-const MobileNavbar = ({ navbar }: { navbar: any }) => {
+const MobileNavbar = ({
+  accountImage,
+  accountName,
+  authenticated,
+  locale,
+  navbar,
+  getNavbarHref,
+  getNavbarLabel,
+  isAuthLink,
+  logoutAction,
+}: {
+  accountImage?: string | null
+  accountName: string
+  authenticated: boolean
+  locale: string
+  navbar: any
+  getNavbarHref: (link: { href: string | UrlObject; label: ReactNode }) => string | UrlObject
+  getNavbarLabel: (link: { href: string | UrlObject; label: ReactNode }) => ReactNode
+  isAuthLink: (link: { href: string | UrlObject; label: ReactNode }) => boolean
+  logoutAction: () => Promise<void>
+}) => {
   const onClick = () => {}
   return (
     <Drawer direction="left">
@@ -36,7 +57,7 @@ const MobileNavbar = ({ navbar }: { navbar: any }) => {
                 // locale === 'ar' && 'flex-row-reverse',
               )}
             >
-              {navbar?.navLinks?.map(
+              {navbar?.navLinks?.filter((link: any) => !authenticated || !isAuthLink(link)).map(
                 (
                   link: {
                     href: string | UrlObject
@@ -66,7 +87,7 @@ const MobileNavbar = ({ navbar }: { navbar: any }) => {
                 ) => (
                   <DrawerClose key={i} asChild>
                     <LocaleLink
-                      href={link.href}
+                      href={getNavbarHref(link)}
                       className="text-gray-800 hover:text-primary transition-colors"
                     >
                       {link.label}
@@ -80,18 +101,35 @@ const MobileNavbar = ({ navbar }: { navbar: any }) => {
             {/* <div className="mt-3 h-[120px]"></div> */}
           </div>
           <DrawerFooter className="flex flex-row w-full items-center justify-center">
-            {navbar?.buttons?.map((btn: NavbarButton, i: number) => (
-              <LocaleLink key={i} href={btn.href}>
-                <DrawerClose asChild>
-                  <Button
-                    className={btn.variant === 'outline' ? 'h-[44px] text-[14px]' : ''}
-                    variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                  >
-                    {btn.label}
-                  </Button>
-                </DrawerClose>
-              </LocaleLink>
-            ))}
+            {authenticated ? (
+              <AccountMenu
+                image={accountImage}
+                locale={locale}
+                logoutAction={logoutAction}
+                name={accountName}
+              />
+            ) : (
+              navbar?.buttons?.map((btn: NavbarButton, i: number) => {
+                const href = getNavbarHref(btn)
+
+                return href === '/login' ? (
+                  <DrawerClose asChild key={i}>
+                    <LocaleLink
+                      className="inline-flex h-10 items-center px-3 text-sm font-medium text-gray-700"
+                      href={href}
+                    >
+                      {getNavbarLabel(btn)}
+                    </LocaleLink>
+                  </DrawerClose>
+                ) : (
+                  <LocaleLink href={href} key={i}>
+                    <DrawerClose asChild>
+                      <Button>{getNavbarLabel(btn)}</Button>
+                    </DrawerClose>
+                  </LocaleLink>
+                )
+              })
+            )}
           </DrawerFooter>
         </div>
       </DrawerContent>

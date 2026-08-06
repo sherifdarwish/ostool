@@ -48,6 +48,6 @@ export async function registerWithPassword(locale: string, formData: FormData) {
   await signIn('credentials', {
     email: data.email,
     password: data.password,
-    redirectTo: `/${locale}/auth/continue`,
+    redirectTo: `/${locale}/onboarding`,
   })
 }

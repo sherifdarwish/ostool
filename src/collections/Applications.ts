@@ -19,6 +19,7 @@ export const Applications: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
@@ -31,6 +32,30 @@ export const Applications: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
+    },
+    {
+      name: 'media',
+      type: 'upload',
+      label: 'Product image or video',
+      relationTo: 'media',
+    },
+    {
+      name: 'videoUrl',
+      type: 'text',
+      label: 'Video URL',
+      admin: {
+        description:
+          'YouTube link or direct MP4/WebM URL. Used when no uploaded media is selected.',
+      },
+    },
+    {
+      name: 'applicationUrl',
+      type: 'text',
+      label: 'Application URL',
+      admin: {
+        description: 'Where enabled customers launch this application.',
+      },
     },
     {
       name: 'status',

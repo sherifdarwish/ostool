@@ -10,8 +10,22 @@ import { Button } from '../ui/button'
 import LanguageSwitcher from './LanguageSwitcher'
 import LocaleLink from './LocaleLink'
 import MobileNavbar from './MobileNavbar'
+import { logout } from './actions'
+import AccountMenu from './AccountMenu'
 
-const Navbar = ({ navbar, locale }: { navbar: any; locale: string }) => {
+const Navbar = ({
+  accountUser,
+  authenticated,
+  navbar,
+  locale,
+}: {
+  accountUser: { image?: string | null; name?: string | null } | null
+  authenticated: boolean
+  navbar: any
+  locale: string
+}) => {
+  const logoutAction = logout.bind(null, locale)
+  const accountName = accountUser?.name || (locale === 'ar' ? 'حسابي' : 'My account')
   const resolvedNavLogo =
     navbar?.logo && typeof navbar.logo === 'object' && 'url' in navbar.logo ? navbar.logo : null
   const navLogoWidth =
@@ -24,6 +38,28 @@ const Navbar = ({ navbar, locale }: { navbar: any; locale: string }) => {
     resolvedNavLogo?.sizes?.medium?.height ||
     resolvedNavLogo?.sizes?.small?.height ||
     40
+
+  const getNavbarHref = ({ href }: { href: string | UrlObject; label: ReactNode }) => {
+    const hrefString = typeof href === 'string' ? href : ''
+    const normalizedHref = hrefString.toLowerCase()
+
+    if (/(?:^|\/)login(?:\/|$)/.test(normalizedHref)) return '/login'
+    if (/(?:^|\/)(?:register|join-waiting-list)(?:\/|$)/.test(normalizedHref)) return '/register'
+
+    return href
+  }
+
+  const isAuthLink = (link: { href: string | UrlObject; label: ReactNode }) => {
+    const href = getNavbarHref(link)
+    return href === '/login' || href === '/register'
+  }
+
+  const getNavbarLabel = (link: { href: string | UrlObject; label: ReactNode }) =>
+    getNavbarHref(link) === '/register'
+      ? locale === 'ar'
+        ? 'ابدأ مجاناً'
+        : 'Start for free'
+      : link.label
 
   return (
     <div className="border-b  backdrop-blur-xl sticky top-0 z-50">
@@ -62,7 +98,7 @@ const Navbar = ({ navbar, locale }: { navbar: any; locale: string }) => {
               // locale === 'ar' && 'flex-row-reverse',
             )}
           >
-            {navbar?.navLinks?.map(
+            {navbar?.navLinks?.filter((link: any) => !authenticated || !isAuthLink(link)).map(
               (
                 link: {
                   href: string | UrlObject
@@ -92,7 +128,7 @@ const Navbar = ({ navbar, locale }: { navbar: any; locale: string }) => {
               ) => (
                 <LocaleLink
                   key={i}
-                  href={link.href}
+                  href={getNavbarHref(link)}
                   className="text-gray-800 hover:text-primary transition-colors"
                 >
                   {link.label}
@@ -111,21 +147,45 @@ const Navbar = ({ navbar, locale }: { navbar: any; locale: string }) => {
             <div className="hidden md:block">
               <LanguageSwitcher />
             </div>
-            {navbar?.buttons?.map((btn: NavbarButton, i: number) => (
-              <LocaleLink key={i} href={btn.href}>
-                <Button
-                  className={
-                    btn.variant === 'outline' ? 'h-[44px] text-[14px] hidden md:block' : ''
-                  }
-                  variant={btn.variant === 'outline' ? 'outline' : 'default'}
-                >
-                  {btn.label}
-                </Button>
-              </LocaleLink>
-            ))}
+            {authenticated ? (
+              <AccountMenu
+                image={accountUser?.image}
+                locale={locale}
+                logoutAction={logoutAction}
+                name={accountName}
+              />
+            ) : (
+              navbar?.buttons?.map((btn: NavbarButton, i: number) => {
+                const href = getNavbarHref(btn)
+
+                return href === '/login' ? (
+                  <LocaleLink
+                    className="hidden text-sm font-medium text-gray-700 transition-colors hover:text-primary md:inline-flex"
+                    href={href}
+                    key={i}
+                  >
+                    {getNavbarLabel(btn)}
+                  </LocaleLink>
+                ) : (
+                  <LocaleLink href={href} key={i}>
+                    <Button>{getNavbarLabel(btn)}</Button>
+                  </LocaleLink>
+                )
+              })
+            )}
 
             <div className="block md:hidden">
-              <MobileNavbar navbar={navbar} />
+              <MobileNavbar
+                authenticated={authenticated}
+                accountImage={accountUser?.image}
+                accountName={accountName}
+                locale={locale}
+                navbar={navbar}
+                getNavbarHref={getNavbarHref}
+                isAuthLink={isAuthLink}
+                getNavbarLabel={getNavbarLabel}
+                logoutAction={logoutAction}
+              />
             </div>
           </div>
         </div>

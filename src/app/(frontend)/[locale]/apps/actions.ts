@@ -61,8 +61,8 @@ export async function selectApplication(locale: string, formData: FormData) {
     redirect(`/${locale}/login`)
   }
 
-  if (!user.company) {
-    redirect(`/${locale}/onboarding/company`)
+  if (user.onboardingStatus === 'company-required') {
+    redirect(`/${locale}/onboarding`)
   }
 
   const applications = await payload.find({
