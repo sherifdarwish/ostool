@@ -31,7 +31,7 @@ export default function AccountMenu({
     .toUpperCase()
 
   return (
-    <DropdownMenu>
+    <DropdownMenu dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <DropdownMenuTrigger asChild>
         <button
           aria-label={locale === 'ar' ? 'فتح قائمة الحساب' : 'Open account menu'}
@@ -47,7 +47,7 @@ export default function AccountMenu({
           </span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="truncate">{name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
