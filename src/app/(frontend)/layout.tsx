@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
+import { thmanyahSans } from '@/fonts'
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -14,7 +14,7 @@ import './globals.css'
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable)}
+      className={cn(thmanyahSans.variable, GeistMono.variable)}
       lang="en"
       data-theme="light"
       suppressHydrationWarning

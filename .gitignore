@@ -8,6 +8,7 @@ node_modules
 .vscode/.env.local
 .next
 .vercel
+/Thmanyah-Font-Family/
 
 db-data/
 init.sql

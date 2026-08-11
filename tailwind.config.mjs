@@ -95,7 +95,7 @@ const config = {
       },
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        sans: ['var(--font-thmanyah-sans)'],
       },
       keyframes: {
         'accordion-down': {
