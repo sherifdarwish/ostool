@@ -58,7 +58,9 @@ async function syncPayloadUser({
         authProvider: provider as 'google' | 'linkedin',
         avatarUrl: image,
         name: existing.docs[0].name || name,
+        onboardingStatus: existing.docs[0].onboardingStatus || 'company-required',
         providerAccountId,
+        role: existing.docs[0].role || 'customer',
       },
     })
   }
