@@ -35,7 +35,7 @@ export default function AccountMenu({
       <DropdownMenuTrigger asChild>
         <button
           aria-label={locale === 'ar' ? 'فتح قائمة الحساب' : 'Open account menu'}
-          className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-primary text-xs font-semibold text-white shadow-sm outline-none transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-primary bg-primary text-xs font-semibold text-white shadow-sm outline-none transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           type="button"
         >
           <span
