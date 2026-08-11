@@ -1,5 +1,6 @@
 import { signIn } from '@/auth'
 import OAuthButton from '@/components/shared/OAuthButton'
+import PasswordField from '@/components/shared/PasswordField'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -41,21 +42,33 @@ export default async function RegisterPage({ params }: { params: Promise<{ local
         <form action={submitPasswordRegistration} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="name">{text.name}</Label>
-            <Input autoComplete="name" id="name" name="name" required />
+            <Input
+              autoComplete="name"
+              id="name"
+              name="name"
+              placeholder={text.namePlaceholder}
+              required
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">{text.email}</Label>
-            <Input autoComplete="email" id="email" name="email" required type="email" />
+            <Input
+              autoComplete="email"
+              id="email"
+              name="email"
+              placeholder={text.emailPlaceholder}
+              required
+              type="email"
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">{text.password}</Label>
-            <Input
-              autoComplete="new-password"
-              id="password"
-              minLength={8}
-              name="password"
-              required
-              type="password"
+            <PasswordField
+              hideLabel={text.hidePassword}
+              placeholder={text.passwordPlaceholder}
+              rtl={rtl}
+              showLabel={text.showPassword}
+              strengthLabels={text.passwordStrength}
             />
           </div>
           <Button className="w-full">{text.submitRegister}</Button>
