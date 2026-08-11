@@ -1,4 +1,5 @@
 import { signIn } from '@/auth'
+import OAuthButton from '@/components/shared/OAuthButton'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -68,14 +69,10 @@ export default async function RegisterPage({ params }: { params: Promise<{ local
 
         <div className="flex flex-col gap-3">
           <form action={registerWithGoogle}>
-            <Button className="w-full bg-white text-gray-950 hover:bg-gray-50" variant="outline">
-              {text.registerWithGoogle}
-            </Button>
+            <OAuthButton label={text.registerWithGoogle} provider="google" />
           </form>
           <form action={registerWithLinkedIn}>
-            <Button className="w-full bg-[#0a66c2] hover:bg-[#084f96]">
-              {text.registerWithLinkedIn}
-            </Button>
+            <OAuthButton label={text.registerWithLinkedIn} provider="linkedin" />
           </form>
         </div>
 

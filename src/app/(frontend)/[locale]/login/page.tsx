@@ -1,4 +1,5 @@
 import { signIn } from '@/auth'
+import OAuthButton from '@/components/shared/OAuthButton'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -63,14 +64,10 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
 
         <div className="flex flex-col gap-3">
           <form action={signInWithGoogle}>
-            <Button className="w-full bg-white text-gray-950 hover:bg-gray-50" variant="outline">
-              {text.withGoogle}
-            </Button>
+            <OAuthButton label={text.withGoogle} provider="google" />
           </form>
           <form action={signInWithLinkedIn}>
-            <Button className="w-full bg-[#0a66c2] hover:bg-[#084f96]">
-              {text.withLinkedIn}
-            </Button>
+            <OAuthButton label={text.withLinkedIn} provider="linkedin" />
           </form>
         </div>
 
